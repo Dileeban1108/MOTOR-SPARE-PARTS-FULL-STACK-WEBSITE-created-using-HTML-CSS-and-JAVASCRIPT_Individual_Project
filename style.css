@@ -198,15 +198,36 @@ header .navbar a:hover{
     }
 
 }
+
+#pre{
+    position: absolute;
+    margin-top: 17%;
+    font-size: 30px;
+     cursor: pointer;
+}
+#next{
+    position: absolute;
+    margin-top: 17%;
+    font-size: 30px;
+     margin-left: 80%;
+     cursor: pointer;
+}
+
 .speaciality .box-container{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+   /* display: flex;
+   overflow-x: auto; */
+   position: relative;
+   top: 10%;
+  /* overflow: hidden; */
 }
 
 .speaciality .box-container .box{
-    flex: 1 1 30rem;
-    position: relative;
+    flex: 1 1 80%;
+    width: 60vw;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* position: relative; */
     overflow: hidden;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
     border: .1rem solid rgba(0,0,0,.3);
@@ -216,28 +237,52 @@ header .navbar a:hover{
     -moz-border-radius: .5rem;
     -ms-border-radius: .5rem;
     -o-border-radius: .5rem;
+    position: absolute;
+    top: 70%;
+    left: 0;
+    transform: translate(0,0%);
+    opacity: 0;
+    width: 70%;
+    animation: movesubtitle 3s linear forwards;
+}
+
+@keyframes movesubtitle{
+    0%{
+        left: 0;
+        opacity: 0;
+    }
+
+    100%{
+        left: 20%;
+        opacity: 1;
+    }
 }
 .speaciality .box-container .box .image{
+    position: absolute;
     height: 100%;
     width: 100%;
     object-fit: cover;
-    position: absolute;
-    top: -110%;
+    top: -100%;
     left: 0%;
 }
 .speaciality .box-container .box .content img{
     margin: 1.5rem 0;
     padding-left:6rem ;
+    margin-left: 15%;
+    height: 60%;
+    width: 60%;
+    position: relative;
 }
 .speaciality .box-container .box .content h3{
     font-size: 2.5rem;
     color: #333;
     padding-left:10.5rem;
+    margin-left: 20%;
 }
 .speaciality .box-container .box .content p{
     font-size: 1.6rem;
     color: #666;
-    padding: 0rem 1.5rem;
+    padding: 0rem 10rem;
 }
 .speaciality .box-container .box:hover .image{
     top: 0;
@@ -250,10 +295,18 @@ header .navbar a:hover{
     -o-transform: translateY(100%);
 }
 .popular .box-container{
+    margin-top: 50%;
     display: flex;
     flex-wrap: wrap;
     gap: 10.5rem;
+    
 }
+
+  .popular .heading{
+   position: absolute;
+   margin-top: 35%;
+   margin-left: 25%;
+  }
 .popular .box-container .box{
     padding: 2rem;
     background: #fff;
