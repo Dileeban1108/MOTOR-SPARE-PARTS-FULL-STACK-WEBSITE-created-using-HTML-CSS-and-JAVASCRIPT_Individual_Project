@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
     <header>
@@ -36,7 +38,9 @@
     </section>
     <section  class="speaciality" id="speaciality">
         <h1 class="heading">what's <span>new</span></h1>
-        <div class="box-container">
+        <button id="pre" onclick="preSlide()"><ion-icon name="chevron-back-outline"></ion-icon></button>
+        <button id="next" onclick="nextSlide()"><ion-icon name="chevron-forward-outline"></ion-icon></button>
+        <div class="box-container" id="box-container">
             <div class="box">
                 <img src="image-3.jpg" alt="" class="image">
                 <div class="content">
@@ -51,8 +55,7 @@
                 <div class="content">
                     <img src="download (2).jpeg" alt="">
                     <h3>bike engine</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At hic possimus
-                         quasi quos. Eligendi accusamus nam fuga voluptates, numquam id.</p>
+                    <p> id.</p>
                 </div> 
             </div>
             <div class="box">
@@ -60,8 +63,7 @@
                 <div class="content">
                     <img src="download (2).jpeg" alt="">
                     <h3>bike engine</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At hic possimus
-                         quasi quos. Eligendi accusamus nam fuga voluptates, numquam id.</p>
+                    <p>s, numquam id.</p>
                 </div> 
             </div>
             <div class="box">
@@ -69,8 +71,7 @@
                 <div class="content">
                     <img src="download (2).jpeg" alt="">
                     <h3>bike engine</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At hic possimus
-                         quasi quos. Eligendi accusamus nam fuga voluptates, numquam id.</p>
+                    <p>uga voluptates, numquam id.</p>
                 </div> 
             </div>
             <div class="box">
@@ -78,8 +79,7 @@
                 <div class="content">
                     <img src="download (2).jpeg" alt="">
                     <h3>bike engine</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At hic possimus
-                         quasi quos. Eligendi accusamus nam fuga voluptates, numquam id.</p>
+                    <p>nam fuga voluptates, numquam id.</p>
                 </div> 
             </div>
             <div class="box">
@@ -87,8 +87,7 @@
                 <div class="content">
                     <img src="download (2).jpeg" alt="">
                     <h3>bike engine</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At hic possimus
-                         quasi quos. Eligendi accusamus nam fuga voluptates, numquam id.</p>
+                    <p>fuga voluptates, numquam id.</p>
                 </div> 
             </div>
         </div>
