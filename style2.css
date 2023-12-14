@@ -1,0 +1,105 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:  border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-decoration: none;
+}
+body{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background:linear-gradient(120deg, #7ce86f ,#cbcb8b);
+    flex-wrap: wrap;
+}
+.product_section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 1rem;
+    width: 100%;
+}
+.products{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(200, 182, 94);
+    padding: .5rem 2rem;
+    border-radius: 1.5rem;
+    margin: 1rem 3rem;
+}
+.products .image img{
+    width: 15rem;
+    padding-top: .5rem;
+    border-radius: 10px;
+}
+ .update_form{
+    background: #eee;
+    margin-top: 3rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    width: 70%;
+}
+ .update_form h3{
+    text-align: center;
+    margin-top: 1rem;
+}
+ .update_form .home{
+    margin-bottom: 1rem ;
+}
+.product_section .update_form .home a{
+    color: red;
+    background-color:  #585757;
+    padding: .5rem 2rem;
+    border-radius: 2.5rem;
+    text-decoration: none;
+    color: #121212;
+    font-size: small;
+    font-weight: 800;
+}
+.update_form form{
+    padding: 1rem;
+    text-align: center;
+    width: 95%;
+}
+.update_form form input{
+    width: 70%;
+    height: 2rem;
+    margin-bottom: .2rem;
+    border-radius: .5rem;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: .9rem;
+    font-weight: 540;
+}
+.update_form form .submit {
+    padding-top: 1rem;
+}
+ .update_form form .submit input{
+    justify-content: center;
+    border-radius: 2.5rem;
+    background: #585757;
+    color: black;
+    font-size: large;
+    font-weight: 900;
+}
+ .update_form form .submit input:hover{
+    background: #fffcfc;
+}
+.update_form .home a:hover{
+    background: #fffcfc;
+    border: solid;
+}
+.back{
+    background-color: #fffcfc;
+    border: solid;
+    width: 100%;
+   height: 5rem;
+   position: absolute;
+}

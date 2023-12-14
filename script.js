@@ -1,23 +1,25 @@
-let menu=document.querySelector('#menu-bar');
-let navbar=document.querySelector('.navbar');
-menu.onclick = () =>{
+let menu = document.querySelector('#menu-bar');
+let navbar = document.querySelector('.navbar');
+menu.onclick = () => {
     menu.classList.toggle('fa-times');
     navbar.classList.toggle('active');
-}
-window.onscroll = () =>{
-    menu.classList.remove('fa-times');
-    navbar.classList.remove('active');
+};
 
-    if(window.scrollY > 60){
-        document.querySelector('#scroll-top').classList.add('active');
-    }else{
-        document.querySelector('#scroll-top').classList.remove('active');
-    }
-} 
-function loader(){
-    document.querySelector('.loader-container').classList.add('fade-out');
+let sub2=document.getElementById('subMenu2');
+function toggleMenu() {
+    sub2.style.display='initial';
 }
-function fadeout(){
-    setInterval(loader, 1000);
+
+// Additional functions and code here
+let sub = document.getElementById('subMenu3');
+
+function openMenu() {
+    sub.style.display = 'initial';
 }
-window.onload=fadeout();
+
+function cancelMenu() {
+    sub.style.display = 'none';
+}
+function closeSubMenu(){
+    sub2.style.display = 'none';
+}
