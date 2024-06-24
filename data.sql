@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 04, 2023 at 09:44 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost
+-- Generation Time: Jun 24, 2024 at 09:52 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `assignmrnt2`
+-- Database: `final_project`
 --
 
 -- --------------------------------------------------------
@@ -39,15 +39,21 @@ CREATE TABLE `admi` (
 --
 
 INSERT INTO `admi` (`userName`, `email`, `passwrd`, `phoneNumber`) VALUES
+('vmd', 'b@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 112233445),
 ('naveen', 'dileebandileeban2001@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 771234567),
-('s.dileeban', 'dileebandileeban746@gmail.com', 'cb3ce9b06932da6faaa7fc70d5b5d2f4', 456221132),
-('shashinda', 'fnfj@gmail.bet', '4a7d1ed414474e4033ac29ccb8653d9b', 789456123),
-('kamal', 'kamal@gmail.com', 'b59c67bf196a4758191e42f76670ceba', 2147483647),
-('shjh.dileeban', 'kavi@gmail.com', '4a7d1ed414474e4033ac29ccb8653d9b', 4565341),
-('lakshan', 'lakshan@gmail.com', '6074c6aa3488f3c2dddff2a7ca821aab', 789456123),
-('nimal', 'nimal@gmail.com', '6074c6aa3488f3c2dddff2a7ca821aab', 2147483647),
-('sunil', 'sunil@gmail.com', '98cb5b96ac325a5bfe0131efe0798cb2', 754123655),
-('kavi', 'wixat21374@paldept.com', '6074c6aa3488f3c2dddff2a7ca821aab', 1234567);
+('s.dileeban', 'dileebandileeban746@gmail.com', 'cb3ce9b06932da6faaa7fc70d5b5d2f4', 456221132);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `userId` int(50) NOT NULL,
+  `productId` int(50) NOT NULL,
+  `qty` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -61,21 +67,43 @@ CREATE TABLE `product` (
   `price` int(10) NOT NULL,
   `prod_id` int(11) NOT NULL,
   `prod_qty` int(200) NOT NULL,
-  `prod_img` varchar(100) NOT NULL
+  `prod_img` varchar(100) NOT NULL,
+  `brand_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`prod_name`, `prod_des`, `price`, `prod_id`, `prod_qty`, `prod_img`) VALUES
-('the good artist', 'the best book i have ever read', 1500, 10, 8, '8.jpg'),
-('the good artist', 'the best book i have ever read', 1500, 11, 8, '8.jpg'),
-('i dont know', 'i dont kno what to do', 412, 12, 3, '4.jpg'),
-('never', 'good morning', 784, 13, 6, '6.jpg'),
-('giveup', 'hello', 123, 14, 45, '1.jpeg'),
-('kaladevi', 'it is muy mother', 7895, 15, 5, '9.jpg'),
-('dilu', 'cool', 789, 16, 45, 'WhatsApp Image 2023-09-19 at 23.14.52.jpg');
+INSERT INTO `product` (`prod_name`, `prod_des`, `price`, `prod_id`, `prod_qty`, `prod_img`, `brand_name`) VALUES
+('the queens of animation', 'asdnbaa asdbjsa asdnbkj adskj qwehiq fasmf sfnv i hrevhes svrhwer trw', 4455, 26, 3, 'arrivals/psd4  flyer design for cakeshop.jpg', 'apache'),
+('the good life', 'asdnbaa asdbjsa asdnbkj adskj qwehiq fasmf sfnv i hrevhes svrhwer trw', 7777, 27, 6, 'arrivals/psd2 biology flyer.jpg', 'apache'),
+('the queens of animation', 'ccnbvmb,', 5555, 28, 3, 'arrivals/psd2 biology flyer.jpg', 'pulsar'),
+('as', 'excellent', 2222, 29, 3, 'arrivals/psd2 biology flyer.jpg', 'honda'),
+('ds', 'excellent', 2222, 30, 3, 'arrivals/psd4  flyer design for cakeshop.jpg', 'honda'),
+('dsee', 'excellent', 2222, 31, 3, 'arrivals/psd2 biology flyer.jpg', 'honda'),
+('dseed', 'excellent', 2222, 32, 3, 'arrivals/myimage_3.jpg', 'honda'),
+('dseedqwe', 'excellent', 2222, 33, 3, 'arrivals/psd4  flyer design for cakeshop.jpg', 'honda'),
+('dseedqwevhv', 'excellent', 2222, 34, 3, 'arrivals/psd4  flyer design for cakeshop.jpg', 'hornet');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `rId` int(50) NOT NULL,
+  `reviewerName` text NOT NULL,
+  `review` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`rId`, `reviewerName`, `review`) VALUES
+(0, 'dileeban ', 'cool');
 
 -- --------------------------------------------------------
 
@@ -86,15 +114,17 @@ INSERT INTO `product` (`prod_name`, `prod_des`, `price`, `prod_id`, `prod_qty`, 
 CREATE TABLE `superadmin` (
   `userName` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `passwrd` varchar(50) NOT NULL
+  `passwrd` varchar(50) NOT NULL,
+  `phoneNumber` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `superadmin`
 --
 
-INSERT INTO `superadmin` (`userName`, `email`, `passwrd`) VALUES
-('naveen', 'dileebandileeban2001@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055');
+INSERT INTO `superadmin` (`userName`, `email`, `passwrd`, `phoneNumber`) VALUES
+('vmd', 'b@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 112233445),
+('naveen', 'dileebandileeban2001@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 0);
 
 -- --------------------------------------------------------
 
@@ -114,18 +144,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userName`, `email`, `passwrd`, `phoneNumber`) VALUES
-('naveen', 'dileebandileeban2001@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 777894561),
-('dilu', 'dilu@gmail.com', '934b535800b1cba8f96a5d72f72f1611', 134461231),
-('dilukshan', 'diludilu2001@gmail.com', '866c7ee013c58f01fa153a8d32c9ed57', 771234567),
-('shashinda', 'fnfj@gmail.bet', '4a7d1ed414474e4033ac29ccb8653d9b', 789456123),
-('kamal', 'kamal@gmail.com', 'b59c67bf196a4758191e42f76670ceba', 2147483647),
-('lakshan', 'lakshan@gmail.com', '6074c6aa3488f3c2dddff2a7ca821aab', 789456123),
-('nimal', 'nimal@gmail.com', '6074c6aa3488f3c2dddff2a7ca821aab', 2147483647),
-('sri', 'srisri6@gmail ', '48042b1dae4950fef2bd2aafa0b971a1', 774561237),
-('sudu', 'sudu@gmail.com', '2be9bd7a3434f7038ca27d1918de58bd', 2147483647),
-('sunil', 'sunil@gmail.com', '98cb5b96ac325a5bfe0131efe0798cb2', 754123655),
-('suresh', 'suresh@gmail.com', '50f3f8c42b998a48057e9d33f4144b8b', 778945612),
-('susu', 'susu@gmail.com', '3b712de48137572f3849aabd5666a4e3', 787788445);
+('dileeba', 'b@gmail.com', 'c81e728d9d4c2f636f067f89cc14862c', 778899007),
+('dileeb', 'sunil1@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 778899007);
 
 --
 -- Indexes for dumped tables
@@ -142,6 +162,12 @@ ALTER TABLE `admi`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`prod_id`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`rId`);
 
 --
 -- Indexes for table `superadmin`
@@ -164,7 +190,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `prod_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `prod_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -12,13 +12,13 @@ if(isset($_SESSION['new_user'])){
     header("Location:home.php");  
 } 
 
-if (isset($_GET['aId'])) {
-    $aId = $_GET['aId'];
+if (isset($_GET['uId'])) {
+    $uId = $_GET['uId'];
     
-    $delete_query = mysqli_query($connect, "DELETE FROM admi WHERE email = '$aId'");
+    $delete_query = mysqli_query($connect, "DELETE FROM user WHERE email = '$uId'");
 
     if ($delete_query) {
-        header("Location: viewAdmins.php");
+        header("Location: viewUsers.php");
     } else {
         echo "Error deleting review: " . mysqli_error($connect);
     }

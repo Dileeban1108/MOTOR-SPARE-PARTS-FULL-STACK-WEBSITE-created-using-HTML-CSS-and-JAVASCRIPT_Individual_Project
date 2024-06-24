@@ -11,16 +11,44 @@ if (isset($_SESSION['new_user'])) {
     $em = $_SESSION['new_user'];
     $sql = mysqli_query($connect, "SELECT * FROM user WHERE email='$em';");
     $row2 = mysqli_fetch_assoc($sql);
+    if (!mysqli_num_rows($sql) > 0) {
+        header("Location:login.php");
+    }
+} else {
+    header("Location:login.php");
+}
+if (!isset($_SESSION['cart_count'])) {
+    $_SESSION['cart_count'] = 0;
 }
 
-if (isset($_GET['bId'])) {
-    $bId = $_GET['bId'];
-    $stmt = $connect->prepare("SELECT * FROM brand WHERE brand_id = ?");
-    $stmt->bind_param("i", $bId);
-    $stmt->execute();
-    $select_brand = $stmt->get_result();
-    $row1 = $select_brand->fetch_assoc();
-    $stmt->close();
+$qty = 1;
+if ($row2) {
+    $qty = 1;
+
+    if (isset($_GET['pId'])) {
+        $pId = $_GET['pId'];
+        $stmt = $connect->prepare("SELECT * FROM cart WHERE userId = ? AND productId = ?");
+        $stmt->bind_param("si", $em, $pId);
+        $stmt->execute();
+        $checkProductQuery = $stmt->get_result();
+
+        if ($checkProductQuery->num_rows === 0) {
+            $stmt = $connect->prepare("INSERT INTO cart (userId, productId, qty) VALUES (?, ?, ?)");
+            $stmt->bind_param("sii", $em, $pId, $qty);
+            $stmt->execute();
+            $_SESSION['cart_count']++;
+            echo '<script>
+                alert("Added to cart successfully");
+                window.location.href = "viewAllProducts.php";
+            </script>';
+        } else {
+            echo '<script>
+                alert("Already added to the cart");
+                window.location.href = "viewAllProducts.php";
+            </script>';
+        }
+        $stmt->close();
+    }
 }
 
 $products = [];
@@ -45,6 +73,7 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +86,7 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
             border: 5px solid #ff0000;
             background-color: rgba(255, 0, 0, 0.1);
         }
+
         .sub-menu-wrap {
             position: absolute;
             top: 100%;
@@ -70,35 +100,43 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
             z-index: 10;
             font-size: 15px;
         }
+
         .sub-menu-wrap.open {
             max-height: 500px;
+            /* adjust based on your content height */
         }
+
         .sub-menu .user-info {
             display: flex;
             align-items: center;
             padding: 15px;
         }
+
         .sub-menu .user-info img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             margin-right: 15px;
         }
+
         .sub-menu .texts h2 {
             font-size: 18px;
             margin: 0;
         }
+
         .sub-menu .texts h3 {
             font-size: 14px;
             color: gray;
             margin: 0;
         }
+
         .sub-menu hr {
             border: 0;
             height: 1px;
             background-color: #e1e1e1;
             margin: 15px 0;
         }
+
         .sub-menu a {
             display: flex;
             align-items: center;
@@ -107,23 +145,28 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
             color: black;
             transition: background-color 0.3s;
         }
+
         .sub-menu a img {
             width: 24px;
             height: 24px;
             margin-right: 15px;
         }
+
         .sub-menu a span {
             margin-left: auto;
             font-size: 18px;
         }
+
         .sub-menu a:hover {
             background-color: #f1f1f1;
         }
+
         .logoutbtn {
             color: red;
         }
     </style>
 </head>
+
 <body>
     <header>
         <?php
@@ -158,53 +201,55 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
             </div>
         </div>
         <?php if ($row2) { ?>
-        <a href="#" class="signuplogo" onclick="toggleMenu2()">
-            <img src="./images/user.png">
-        </a>
-        <div class="sub-menu-wrap" id="subMenu">
-            <div class="sub-menu">
-                <div class="user-info">
-                    <img src="./images/user.png">
-                    <div class="texts">
-                        <h2><?php echo $row2['userName']; ?></h2>
-                        <h3><?php echo $row2['email']; ?></h3>
+
+            <a href="#" class="signuplogo" onclick="toggleMenu2()">
+                <img src="./images/user.png">
+            </a>
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="user-info">
+                        <img src="./images/user.png">
+                        <div class="texts">
+                            <h2><?php echo $row2['userName']; ?></h2>
+                            <h3><?php echo $row2['email']; ?></h3>
+                        </div>
                     </div>
-                </div>
-                <hr>
-                <a href="editProfile.php">
-                    <img src="./images/user-circle-solid-24.png" alt="">
-                    <p>Edit Profile</p>
-                    <span>></span>
-                </a>
-                <?php
-                if ($chkresult1 > 0) {
-                    if ($chkresult > 0) {
-                        echo '<a href="addadmin.php">
-                            <img src="./images/user-circle-solid-24.png" alt="">
-                            <p>Add admins</p>
-                            <span>></span>
-                          </a>
-                    <a href="viewAdmins.php" onclick="toggleMenu2()">
-                            <img src="./images/user-circle-solid-24.png" alt="">
-                            <p>View admins</p>
-                            <span>></span>
-                    </a>';
+                    <hr>
+                    <a href="editProfile.php">
+                        <img src="./images/user-circle-solid-24.png" alt="">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+                    <?php
+                    if ($chkresult1 > 0) {
+                        if ($chkresult > 0) {
+                            echo '<a href="addadmin.php">
+                                <img src="./images/user-circle-solid-24.png" alt="">
+                                <p>Add admins</p>
+                                <span>></span>
+                              </a>
+                        <a href="viewAdmins.php" onclick="toggleMenu2()">
+                                <img src="./images/user-circle-solid-24.png" alt="">
+                                <p>View admins</p>
+                                <span>></span>
+                        </a>';
+                        }
+                        echo '<a href="viewUsers.php" onclick="toggleMenu3()">
+                                <img src="./images/user-circle-solid-24.png" alt="">
+                                <p>View users</p>
+                                <span>></span>
+                        </a>';
                     }
-                    echo '<a href="viewUsers.php" onclick="toggleMenu3()">
-                            <img src="./images/user-circle-solid-24.png" alt="">
-                            <p>View users</p>
-                            <span>></span>
-                    </a>';
-                }
-                ?>
-                <a href="index.php?logout" class='logoutbtn'>
-                    <img src="./images/horizontal-right-regular-24.png" alt="">
-                    <p>Logout</p>
-                    <span>></span>
-                </a>
+                    ?>
+                    <a href="index.php?logout" class='logoutbtn'>
+                        <img src="./images/horizontal-right-regular-24.png" alt="">
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+                </div>
             </div>
-        </div>
         <?php } ?>
+
     </header>
     <section class="shop">
         <div class="box-container">
@@ -212,7 +257,7 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
             if (!empty($products)) {
                 foreach ($products as $product) {
                     $highlightClass = (strpos(strtolower($product['prod_name']), $searchQuery) !== false) ? 'highlight' : '';
-                    ?>
+            ?>
                     <div class="box <?php echo $highlightClass; ?>" style="width: 300px;">
                         <h1><?php echo $product['price'] . " $"; ?></h1>
                         <img src="<?php echo $product['prod_img']; ?>" style="object-fit: cover;" alt="Product Image">
@@ -230,86 +275,40 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
                         <?php
                         if (isset($chkresult1) && $chkresult1 > 0) {
                             echo '<div class="update">
-                                <a href="updateproduct.php?pId=' . $product['prod_id'] . '">Update</a>
-                            </div>';
+                                    <a href="updateproduct.php?pId=' . $product['prod_id'] . '">Update</a>
+                                </div>';
                         } else {
                             echo '
-                            <div class="buttons1">
-                                <div class="cart1">
-                                    <a href="viewAllProducts.php?pId=' . $product['prod_id'] . '">Add to Cart</a>
-                                </div>
-                                <div class="buy1">
-                                    <a href="checkout.php?pId=' . $product['prod_id'] . '">Buy Now</a>
-                                </div>
-                            </div>';
+                                <div class="buttons1">
+                                    <div class="cart1">
+                                        <a href="viewAllProducts.php?pId=' . $product['prod_id'] . '">Add to Cart</a>
+                                    </div>
+                                    <div class="buy1">
+                                        <a href="checkout.php?pId=' . $product['prod_id'] . '">Buy Now</a>
+                                    </div>
+                                </div>';
                         }
                         ?>
                     </div>
-                <?php
+            <?php
                 }
             } else {
-                if (isset($bId) && $row1) {
-                    $brand_name = $row1['brand_name'];
-                    $stmt = $connect->prepare("SELECT * FROM product WHERE brand_name = ? ORDER BY prod_id DESC");
-                    $stmt->bind_param("s", $brand_name);
-                    $stmt->execute();
-                    $select_product = $stmt->get_result();
-                    if ($select_product->num_rows > 0) {
-                        while ($product = $select_product->fetch_assoc()) {
-                            ?>
-                            <div class="box" style="width: 300px;">
-                                <h1><?php echo $product['price'] . " $"; ?></h1>
-                                <img src="<?php echo $product['prod_img']; ?>" style="object-fit: cover;" alt="Product Image">
-                                <h3><?php echo $product['prod_name']; ?></h3>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                                <h2><?php echo "Qty :" . $product['prod_qty']; ?></h2>
-                                <h2><?php echo $product['prod_des']; ?></h2>
-                                <h2><?php echo "Brand :" . $product['brand_name']; ?></h2>
-                                <?php
-                                if (isset($chkresult1) && $chkresult1 > 0) {
-                                    echo '<div class="update">
-                                        <a href="updateproduct.php?pId=' . $product['prod_id'] . '">Update</a>
-                                    </div>';
-                                } else {
-                                    echo '
-                                    <div class="buttons1">
-                                        <div class="cart1">
-                                            <a href="viewAllProducts.php?pId=' . $product['prod_id'] . '">Add to Cart</a>
-                                        </div>
-                                        <div class="buy1">
-                                            <a href="checkout.php?pId=' . $product['prod_id'] . '">Buy Now</a>
-                                        </div>
-                                    </div>';
-                                }
-                                ?>
-                            </div>
-                        <?php
-                        }
-                    } else {
-                        echo "<div class='empty'>No brands added</div>";
-                    }
-                    $stmt->close();
-                } else {
-                    echo "<div class='empty'>No products found</div>";
-                }
+                echo "<div class='empty'>No products found</div>";
             }
-        ?>
+            ?>
         </div>
     </section>
     <footer class="footer">
         <div class="footer-container">
+            <!-- Company Info -->
             <div class="footer-column">
                 <h3>About Us</h3>
                 <p>
                     We provide high-quality motor spare parts to ensure the best performance and longevity for your vehicles. Our mission is to offer reliable products and exceptional customer service.
                 </p>
             </div>
+
+            <!-- Quick Links -->
             <div class="footer-column">
                 <h3>Quick Links</h3>
                 <ul>
@@ -319,12 +318,16 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
                     <li><a href="#review">Reviews</a></li>
                 </ul>
             </div>
+
+            <!-- Contact Info -->
             <div class="footer-column">
                 <h3>Contact Us</h3>
                 <p>Address: 1234 Motor Street, Auto City, AS 56789</p>
                 <p>Email: info@motorspareparts.com</p>
                 <p>Phone: (123) 456-7890</p>
             </div>
+
+            <!-- Social Media -->
             <div class="footer-column">
                 <h3>Follow Us</h3>
                 <div class="social-media">
@@ -335,19 +338,25 @@ $count = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
                 </div>
             </div>
         </div>
+
+        <!-- Bottom Footer -->
         <div class="bottom-footer">
             <p>&copy; 2024 Motor Spare Parts. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <script src="script.js"></script>
     <script>
         function toggleMenu() {
-            const subMenu = document.getElementById('subMenu2');
-            subMenu.classList.toggle('open-menu');
+            var subMenu = document.getElementById("subMenu");
+            subMenu.classList.toggle("open");
         }
 
-        function openMenu() {
-            // Add your function to open the user menu here
+        function toggleMenu2() {
+            var subMenu = document.getElementById("subMenu");
+            subMenu.classList.toggle("open");
         }
     </script>
 </body>
+
 </html>

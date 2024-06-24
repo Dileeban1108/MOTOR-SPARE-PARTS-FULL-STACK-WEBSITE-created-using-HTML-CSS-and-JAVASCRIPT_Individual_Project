@@ -1,7 +1,6 @@
 <?php
 require 'dbc.php';
-// session_start();
-
+session_start(); // Start the session here
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,28 +9,27 @@ require 'dbc.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-    .alert {
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ff0000;
-        color: #ff0000;
-        background-color: #ffcccc;
-        border-radius: 5px;
-        position: relative;
-        top: 8px;
-    }
-
-    .success {
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #008000;
-        color: #008000;
-        background-color: #ccffcc;
-        border-radius: 5px;
-        position: relative;
-        top: 8px;
-    }
-</style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            background-color: #ffcccc;
+            border-radius: 5px;
+            position: relative;
+            top: 8px;
+        }
+        .success {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #008000;
+            color: #008000;
+            background-color: #ccffcc;
+            border-radius: 5px;
+            position: relative;
+            top: 8px;
+        }
+    </style>
 </head>
 <body>
 <?php
@@ -67,24 +65,25 @@ if (isset($_POST['submit'])) {
             }
 
             if (count($error) < 1) {
-                if ($Email == " SELECT email FROM admi where passwrd='$Password' AND email='$Email';") {
+                $_SESSION['new_user'] = $Email;
+
+                if ($Email == " SELECT email FROM user where passwrd='$Password' AND email='$Email';") {
                     $output .= "<p class='success'>Successfully logged in as admin</p>";
                 } else {
                     $output .= "<p class='success'>Successfully logged in as user</p>";
-
                 }
-                $_SESSION['new_user']=$Email;
-                header("Location:index.php?LOGIN=SUCCESSFULL");
-                
+
+                header("Location: index.php?LOGIN=SUCCESSFUL");
+                exit(); // Ensure script execution stops after the redirect
             }
         } else {
             $output .= "<p class='alert'>No user found with the provided email</p>";
         }
     } else {
-       $output .= "<p class='alert'>Error in the SQL query: " . mysqli_error($connect) . "</p>";
+        $output .= "<p class='alert'>Error in the SQL query: " . mysqli_error($connect) . "</p>";
     }
 }
+echo $output;
 ?>
-
 </body>
 </html>
