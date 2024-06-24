@@ -35,7 +35,7 @@ $output="";
        }
        if(count($error)<=0 ){  
             $insert=mysqli_query($connect,"INSERT INTO brand(brand_name ,image_address)
-            VALUES('$name','$b_image')") or die('query failed');
+            VALUES('$name','$b_image_folder')") or die('query failed');
 
             if($insert){
                     move_uploaded_file($b_image_tmp_name,$b_image_folder);
